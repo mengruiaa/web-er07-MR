@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>任务大</title>
+	<meta charset="utf-8">
+	<script type="text/javascript" src="animate.js"></script>
+	<link rel="stylesheet" type="text/css" href="style2.css">
+</head>
+<body>
+	<div class="tiao">
+		<div class="laba"><img src="images/a15.png"></div>
+		<div class="zi">
+			<div class="tishi" id="tishi">
+				<p>[温馨提示]最近有不少不法分子在网上骗人，请大家注意!!!</p>
+			</div>
+		</div>
+	</div>
+	<div class="box" id="box">
+		<div class="pics" id="pics">
+			<div class="pictrue"><img src="images/b5.png"></div>
+			<div class="pictrue"><img src="images/b1.png"></div>
+			<div class="pictrue"><img src="images/b2.png"></div>
+			<div class="pictrue"><img src="images/b3.png"></div>
+			<div class="pictrue"><img src="images/b4.png"></div>
+			<div class="pictrue"><img src="images/b5.png"></div>
+			<div class="pictrue"><img src="images/b1.png"></div>
+		</div>
+		<span id="left"><</span>
+		<span id="right">></span>
+		<ul class="nav" id="nav">
+			<li class="become">1</li>
+			<li>2</li>
+			<li>3</li>
+			<li>4</li>
+			<li>5</li>
+		</ul>
+	</div>
+	<script type="text/javascript">
+		var tishi=document.getElementById('tishi');
+		var box=document.getElementById('box');
+		var navlist =document.getElementById('nav').children;
+		var pics =document.getElementById('pics');
+		var left=document.getElementById('left');
+		var right=document.getElementById('right');
+		var index=1;
+		var tt;
+		var timer;
+		var move=false;
+		setInterval("flow()",50);
+		function flow(){
+			 tt=parseInt(getStyle(tishi,'right'));
+			if(tt==1000){
+				tishi.style.right='-100px';
+			}else{
+				tishi.style.right=tt+4+'px';
+			}
+		}
+		function next(){
+			if(!move){
+				move=true;
+				index++;
+				listchange();
+				animate(pics,{left:-1200*index},function(){
+					if(index==6){
+						pics.style.left="-1200px";
+						index=1;
+					}
+					move=false;
+				});
+			}
+		};
+		function pre(){
+			if(move){
+				return;
+			}
+			move=true;
+			index--;
+			listchange();
+			animate(pics,{left:-1200*index},function(){
+				if(index==0){
+					pics.style.left="-6000px";
+					index=5;
+				}
+				move=false;
+			});
+		};
+		timer= setInterval('next()',3000);
+		box.onmouseover=function(){
+			animate(left,{opacity:50});
+			animate(right,{opacity:50});
+			clearInterval(timer);
+		};
+		box.onmouseout=function(){
+			animate(left,{opacity:0});
+			animate(right,{opacity:0});
+			timer= setInterval('next()',3000);
+		};
+		right.onclick=next;
+		left.onclick=pre;
+		for(var i=0;i<navlist.length;i++){
+			navlist[i].idv=i;
+			navlist[i].onclick=function(){
+				index=this.idv+1;
+				listchange();
+				animate(pics,{left:-1200*index});
+			}
+		}
+		function listchange(){
+			for(var i=0;i<navlist.length;i++){
+				navlist[i].className="";
+			}
+			if(index==6){
+				navlist[0].className="become";
+			}else if(index==0){
+				navlist[4].className="become";
+			}else{
+				navlist[index-1].className="become";
+			}
+		}
+	</script>
+</body>
+</html>
